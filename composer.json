@@ -10,11 +10,12 @@
   ],
   "require": {
     "php": "^7.4|^8.0",
-    "symfony/console": "^5.0|^6.0"
+    "symfony/console": "^5.0|^6.0",
+    "symfony/process": "^5.0|^6.0"
   },
   "autoload": {
     "psr-4": {
-      "JeffersonSimaoGonalves\\PhpGitflow\\": "src/"
+      "JeffersonSimaoGoncalves\\PhpGitflow\\": "src/"
     }
   },
   "bin": [

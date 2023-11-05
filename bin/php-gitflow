@@ -3,16 +3,19 @@
 
 $root = dirname(__DIR__);
 
-if (! is_file(sprintf('%s/vendor/autoload.php', $root))) {
+if (!is_file(sprintf('%s/vendor/autoload.php', $root))) {
     $root = dirname(__DIR__, 4);
 }
 
 require sprintf('%s/vendor/autoload.php', $root);
 
+use JeffersonSimaoGoncalves\PhpGitflow\Commands\DisplayInfo;
 use Symfony\Component\Console\Application;
 
+$commandDisplayInfo = new DisplayInfo();
+$commandDisplayInfo->setRootPath($root);
+
 $application = new Application();
-
-// ... register commands
-
+$application->add($commandDisplayInfo);
+$application->setDefaultCommand($commandDisplayInfo->getName());
 $application->run();
