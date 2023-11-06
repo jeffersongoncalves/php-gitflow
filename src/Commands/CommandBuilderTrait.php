@@ -34,7 +34,7 @@ trait CommandBuilderTrait
 
         $this->repository->getConfig()
                          ->getLogger()
-                         ->debug(\sprintf('[ccabs-repository-git] exec [%s] %s', $this->workingDirectory, $process->getCommandLine()));
+                         ->debug(\sprintf('[php-gitflow] exec [%s] %s', $this->workingDirectory, $process->getCommandLine()));
 
         $process->run();
         $this->output = $process->getOutput();

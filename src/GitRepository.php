@@ -2,6 +2,8 @@
 
 namespace JeffersonSimaoGoncalves\PhpGitflow;
 
+use function is_dir;
+
 class GitRepository
 {
     public function __construct(private readonly string $repositoryPath, private readonly GitConfig $config = new GitConfig())
@@ -20,6 +22,6 @@ class GitRepository
 
     public function isInitialized(): bool
     {
-        return \is_dir($this->repositoryPath . DIRECTORY_SEPARATOR . '.git');
+        return is_dir($this->repositoryPath . DIRECTORY_SEPARATOR . '.git');
     }
 }
