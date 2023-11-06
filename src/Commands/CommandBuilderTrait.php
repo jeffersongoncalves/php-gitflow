@@ -26,7 +26,7 @@ trait CommandBuilderTrait
 
     abstract protected function initializeProcessBuilder(): void;
 
-    protected function runProcess(): ?string
+    protected function runProcess(): string
     {
         $process = $this->buildProcess();
 
