@@ -2,6 +2,7 @@
 <?php
 
 $root = dirname(__DIR__);
+$pathRepository = getcwd();
 
 if (!is_file(sprintf('%s/vendor/autoload.php', $root))) {
     $root = dirname(__DIR__, 4);
@@ -10,10 +11,13 @@ if (!is_file(sprintf('%s/vendor/autoload.php', $root))) {
 require sprintf('%s/vendor/autoload.php', $root);
 
 use JeffersonSimaoGoncalves\PhpGitflow\Commands\DisplayInfo;
+use JeffersonSimaoGoncalves\PhpGitflow\GitRepository;
 use Symfony\Component\Console\Application;
 
+$repository = new GitRepository($pathRepository);
+
 $commandDisplayInfo = new DisplayInfo();
-$commandDisplayInfo->setRootPath($root);
+$commandDisplayInfo->setRepository($repository);
 
 $application = new Application();
 $application->add($commandDisplayInfo);
