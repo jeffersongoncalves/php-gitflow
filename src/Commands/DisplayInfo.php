@@ -35,12 +35,15 @@ class DisplayInfo extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
         if (!$this->repository->isInitialized()) {
             $io->error('Não foi possível encontrar a pasta .git.');
             $this->repository->getConfig()->getLogger()->error('Não foi possível encontrar a pasta .git.');
             return Command::SUCCESS;
         }
+
         $result = $this->runProcess();
+
         if (str_contains($result, 'gitflow.branch.')) {
             $io->success('Git Flow está configurado.');
             $this->repository->getConfig()->getLogger()->info('Git Flow está configurado.');

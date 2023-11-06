@@ -6,13 +6,15 @@ use JeffersonSimaoGoncalves\PhpGitflow\GitException;
 use JeffersonSimaoGoncalves\PhpGitflow\GitRepository;
 use Symfony\Component\Process\Exception\LogicException;
 use Symfony\Component\Process\Process;
+use function count;
+use function rtrim;
+use function sprintf;
 
 trait CommandBuilderTrait
 {
     private GitRepository $repository;
     private string        $workingDirectory;
     private array         $arguments = [];
-    private ?string       $output    = null;
 
     public function setRepository(GitRepository $repository): void
     {
@@ -28,36 +30,27 @@ trait CommandBuilderTrait
     {
         $process = $this->buildProcess();
 
-        if ($this->output !== null) {
-            throw new GitException('Command cannot be executed twice', $process->getWorkingDirectory(), $process->getCommandLine(), $this->output, '');
-        }
-
         $this->repository->getConfig()
                          ->getLogger()
-                         ->debug(\sprintf('[php-gitflow] exec [%s] %s', $this->workingDirectory, $process->getCommandLine()));
+                         ->debug(sprintf('[php-gitflow] exec [%s] %s', $this->workingDirectory, $process->getCommandLine()));
 
         $process->run();
-        $this->output = $process->getOutput();
-        $this->output = \rtrim($this->output, "\r\n");
+        $output = $process->getOutput();
+        $output = rtrim($output, "\r\n");
 
         if (!$process->isSuccessful()) {
             throw GitException::createFromProcess('Could not execute git command', $process);
         }
 
-        return $this->output;
+        return $output;
     }
 
     protected function buildProcess(): Process
     {
-        if (!\count($this->arguments)) {
+        if (!count($this->arguments)) {
             throw new LogicException('You must add command arguments before the process can build.');
         }
 
         return new Process($this->arguments, $this->workingDirectory);
-    }
-
-    public function getOutput(): ?string
-    {
-        return $this->output;
     }
 }
